@@ -1,4 +1,6 @@
 const esbuild = require("esbuild");
+const fs = require("fs");
+const path = require("path");
 
 const production = process.argv.includes('--production');
 const watch = process.argv.includes('--watch');
@@ -37,16 +39,40 @@ async function main() {
 		outfile: 'dist/extension.js',
 		external: ['vscode'],
 		logLevel: 'silent',
+		plugins: [esbuildProblemMatcherPlugin],
+	});
+
+	// Build webview separately
+	const webviewCtx = await esbuild.context({
+		entryPoints: ['webview/index.tsx'],
+		bundle: true,
+		format: 'iife',
+		minify: production,
+		sourcemap: !production,
+		outfile: 'dist/webview.js',
+		platform: 'browser',
 		plugins: [
-			/* add to the end of plugins array */
 			esbuildProblemMatcherPlugin,
 		],
+		loader: {
+			'.tsx': 'tsx',
+			'.ts': 'ts',
+			'.js': 'js',
+			'.css': 'css',
+		},
 	});
+
+	// Copy styles.css to dist directory
+	fs.copyFileSync(
+		path.resolve(__dirname, "webview/styles.css"),
+		path.resolve(__dirname, "dist/styles.css")
+	);
+
 	if (watch) {
-		await ctx.watch();
+		await Promise.all([ctx.watch(), webviewCtx.watch()]);
 	} else {
-		await ctx.rebuild();
-		await ctx.dispose();
+		await Promise.all([ctx.rebuild(), webviewCtx.rebuild()]);
+		await Promise.all([ctx.dispose(), webviewCtx.dispose()]);
 	}
 }
 

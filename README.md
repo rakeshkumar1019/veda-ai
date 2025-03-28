@@ -1,71 +1,103 @@
-# veda-ai README
+Cline: Autonomous Coding Agent Overview
+Key Capabilities
+1. Code and Project Management
 
-This is the README for your extension "veda-ai". After writing up a brief description, we recommend including the following sections.
+Analyze file structures and source code Abstract Syntax Trees (ASTs)
+Perform regex searches across project files
+Create and edit files with real-time linter/compiler error monitoring
+Proactively fix issues like missing imports and syntax errors
 
-## Features
+2. Terminal and Command Execution
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+Run terminal commands directly in your development environment
+Monitor command outputs
+Handle long-running processes like dev servers
+Adapt to your specific dev environment and toolchain
 
-For example if there is an image subfolder under your extension project workspace:
+3. Browser Interaction
 
-\!\[feature X\]\(images/feature-x.png\)
+Launch local development servers
+Perform web interactions:
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+Click elements
+Type text
+Scroll
+Capture screenshots
+Collect console logs
 
-## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+Conduct interactive debugging and end-to-end testing
 
-## Extension Settings
+4. Extensibility
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+Use Model Context Protocol (MCP) to create custom tools
+Supports multiple AI model providers:
 
-For example:
+OpenRouter
+Anthropic
+OpenAI
+Google Gemini
+AWS Bedrock
+Azure
+GCP Vertex
 
-This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+Ability to use local models via LM Studio/Ollama
 
-## Known Issues
+Workflow
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Context Gathering
 
-## Release Notes
+Analyze project structure
+Read relevant files
+Understand project context
 
-Users appreciate release notes as you update your extension.
 
-### 1.0.0
+Task Execution
 
-Initial release of ...
+Perform requested actions
+Continuously monitor for errors
+Provide real-time updates
 
-### 1.0.1
 
-Fixed issue #.
+Checkpointing
 
-### 1.1.0
+Take workspace snapshots at each step
+Allow comparison and restoration of previous states
 
-Added features X, Y, and Z.
 
----
 
-## Following extension guidelines
+Unique Features
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+Human-in-the-loop approval for all actions
+Transparent API usage tracking
+Extensible tool creation
+Safe exploration of different approaches
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+Getting Started
 
-## Working with Markdown
+Use in VSCode
+Activate via CMD/CTRL + Shift + P
+Choose "Cline: Open In New Tab"
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
 
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+ "menus": {
+      "view/title": [
+        {
+          "command": "veda-ai.settings",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        },
+        {
+          "command": "veda-ai.history",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        },
+        {
+          "command": "veda-ai.puls",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        }
+      ]
+    }
+  },

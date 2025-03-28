@@ -9,41 +9,96 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onView:veda-ai.mainView"
+  ],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "veda-ai.helloWorld",
-        "title": "Hello World"
+        "command": "veda-ai.settings",
+        "title": "Veda AI: Settings",
+        "icon": "$(gear)"
+      },
+      {
+        "command": "veda-ai.history",
+        "title": "Veda AI: History",
+        "icon": "$(history)"
+      },
+      {
+        "command": "veda-ai.puls",
+        "title": "Veda AI: Puls",
+        "icon": "$(pulse)"
       }
-    ]
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "veda-ai-sidebar",
+          "title": "Veda AI",
+          "icon": "resources/sidebar-icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "veda-ai-sidebar": [
+        {
+          "type": "webview",
+          "id": "veda-ai.mainView",
+          "name": "Veda AI"
+        }
+      ]
+    },
+    "menus": {
+      "view/title": [
+        {
+          "command": "veda-ai.settings",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        },
+        {
+          "command": "veda-ai.history",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        },
+        {
+          "command": "veda-ai.puls",
+          "when": "view == veda-ai.mainView",
+          "group": "navigation"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
-    "compile": "npm run check-types && npm run lint && node esbuild.js",
-    "watch": "npm-run-all -p watch:*",
-    "watch:esbuild": "node esbuild.js --watch",
-    "watch:tsc": "tsc --noEmit --watch --project tsconfig.json",
-    "package": "npm run check-types && npm run lint && node esbuild.js --production",
-    "compile-tests": "tsc -p . --outDir out",
-    "watch-tests": "tsc -p . -w --outDir out",
-    "pretest": "npm run compile-tests && npm run compile && npm run lint",
-    "check-types": "tsc --noEmit",
-    "lint": "eslint src",
-    "test": "vscode-test"
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "node esbuild.js --production",
+    "test": "vscode-test",
+    "lint": "eslint src webview --ext .ts,.tsx"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@types/vscode": "^1.98.0",
-    "@types/mocha": "^10.0.10",
-    "@types/node": "20.x",
-    "@typescript-eslint/eslint-plugin": "^8.25.0",
-    "@typescript-eslint/parser": "^8.25.0",
-    "eslint": "^9.21.0",
-    "esbuild": "^0.25.0",
-    "npm-run-all": "^4.1.5",
-    "typescript": "^5.7.3",
+    "@types/react": "^19.0.12",
+    "@types/react-dom": "^19.0.4",
+    "@vscode/test-electron": "^2.4.1",
     "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
-  }
+    "typescript": "^5.7.3",
+    "npm-run-all": "^4.1.5",
+    "esbuild": "^0.25.0",
+    "eslint": "^9.21.0",
+    "@typescript-eslint/parser": "^8.25.0",
+    "@typescript-eslint/eslint-plugin": "^8.25.0",
+    "@types/node": "20.x",
+    "@types/mocha": "^10.0.10",
+    "@types/vscode": "^1.98.0"
+  },
+  "files": [
+    "dist/**",
+    "out/**",
+    "resources/**" 
+  ]
 }
